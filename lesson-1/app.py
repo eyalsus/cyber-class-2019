@@ -19,8 +19,8 @@ print (df)
 conn = sqlite3.connect("users.db")
 df.to_sql('users', conn, index=False, if_exists='replace')
 
-df_from_db = pd.read_sql_query('select * from users', conn)
-print (df_from_db)
+# df_from_db = pd.read_sql_query('select * from users', conn)
+# print (df_from_db)
 
 @app.route('/login')
 def root():
@@ -31,9 +31,18 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     print (username, password)
-    for user in users:
-        if username == user['username'] and password == user['password']:
-            return render_template('welcome.html')
+
+    ### read from list of dict
+    # for user in users:
+    #     if username == user['username'] and password == user['password']:
+    #         return render_template('welcome.html')
+    
+    ### read from DB
+    df = pd.read_sql_query('select * from users', conn)
+    user_match = df[(username == df['username']) & (password == df['password'])]
+    if len(user_match) > 0:
+        return render_template('welcome.html')
+        
     return render_template('index.html')
 
 @app.route('/welcome')
