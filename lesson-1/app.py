@@ -15,9 +15,8 @@ df = pd.DataFrame.from_dict(users)
 
 print (df)
 
-
-conn = sqlite3.connect("users.db")
-df.to_sql('users', conn, index=False, if_exists='replace')
+with sqlite3.connect("users.db") as conn:
+    df.to_sql('users', conn, index=False, if_exists='replace')
 
 # df_from_db = pd.read_sql_query('select * from users', conn)
 # print (df_from_db)
@@ -28,18 +27,28 @@ def root():
 
 @app.route('/verify', methods=['POST'])
 def login():
+    global conn
     username = request.form.get('username')
     password = request.form.get('password')
     print (username, password)
-
+    user_match = []
     ### read from list of dict
     # for user in users:
     #     if username == user['username'] and password == user['password']:
-    #         return render_template('welcome.html')
+    #         user_match.append((username, password))
+
+    # read from DB
+    with sqlite3.connect("users.db") as conn:
+        cur = conn.cursor()
+        query = "select username, password from users u where u.username = " + username + " and u.password = " + password
+        print(query)
+        cur.execute(query)
+        user_match = cur.fetchall()
+
+    ### read from DB with pandas
+    # df = pd.read_sql_query('select * from users', conn)
+    # user_match = df[(username == df['username']) & (password == df['password'])]
     
-    ### read from DB
-    df = pd.read_sql_query('select * from users', conn)
-    user_match = df[(username == df['username']) & (password == df['password'])]
     if len(user_match) > 0:
         return render_template('welcome.html')
         
