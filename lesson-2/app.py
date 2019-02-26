@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, make_response
 import sqlite3
 import pandas as pd
 
@@ -27,10 +27,10 @@ def root():
 
 @app.route('/verify', methods=['POST'])
 def login():
-    global conn
     username = request.form.get('username')
     password = request.form.get('password')
-    print (username, password)
+    remember = request.form.get('remember')    
+    print (username, password, remember)
     user_match = []
     ### read from list of dict
     # for user in users:
@@ -50,7 +50,10 @@ def login():
     # user_match = df[(username == df['username']) & (password == df['password'])]
     
     if len(user_match) > 0:
-        return render_template('welcome.html', username=username)
+        resp = make_response(render_template('welcome.html', username=username))
+        if remember:
+            resp.set_cookie('uname', username)
+        return resp
         
     return render_template('index.html')
 

@@ -50,7 +50,7 @@ def login():
     # user_match = df[(username == df['username']) & (password == df['password'])]
     
     if len(user_match) > 0:
-        return render_template('welcome.html')
+        return render_template('welcome.html', username=username)
         
     return render_template('index.html')
 
