@@ -40,7 +40,7 @@ def login():
     # read from DB
     with sqlite3.connect("users.db") as conn:
         cur = conn.cursor()
-        query = "select username, password from users u where u.username = " + username + " and u.password = " + password
+        query = "select username, password from users u where u.username = '" + username + "' and u.password = '" + password + "'"
         print(query)
         cur.execute(query)
         user_match = cur.fetchall()
