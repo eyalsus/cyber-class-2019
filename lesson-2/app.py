@@ -23,6 +23,8 @@ with sqlite3.connect("users.db") as conn:
 
 @app.route('/login')
 def root():
+    if 'uname' in request.cookies:
+        return render_template('welcome.html', username=request.cookies['uname'])
     return render_template('index.html')
 
 @app.route('/verify', methods=['POST'])
@@ -52,7 +54,7 @@ def login():
     if len(user_match) > 0:
         resp = make_response(render_template('welcome.html', username=username))
         if remember:
-            resp.set_cookie('uname', username)
+            resp.set_cookie('uname', username, 3600)
         return resp
         
     return render_template('index.html')
