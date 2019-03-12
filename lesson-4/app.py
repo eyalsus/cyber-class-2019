@@ -91,7 +91,7 @@ def login():
         post_df = pd.read_sql_query('select * from posts', conn)
         resp = make_response(render_template('welcome.html', 
         username=username,
-        tables=[post_df.to_html(classes='data')],
+        tables=post_df.values,
         titles=post_df.columns.values))
         if remember:
             resp.set_cookie('uname', username, 3600)
@@ -126,6 +126,6 @@ def post():
         titles=post_df.columns.values))
     return resp
     
-    
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
