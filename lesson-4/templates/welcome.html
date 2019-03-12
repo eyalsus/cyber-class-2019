@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    {% autoescape false %}
+    <h1>{{username}}, Welcome!</h1><br />
+    <form action="/post" method="POST">
+        <table>
+            <tr>
+                <td><h2>What are you thinking about?</h2></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><input name="message" type="text"></td>
+                <td><input type="submit" value="Post"/></td>
+            </tr>
+        </table>
+    </form>
+    
+    <h2>Posts by the community</h2><br />
+    {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+    {% endfor %}
+
+    {% endautoescape %}
+</body>
+</html>
