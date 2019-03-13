@@ -1,10 +1,10 @@
+lesson-1
 basic flask app
 web form
 login page
 sqlite DB
 sql injection
-salt
+
+lesson-2
+cookie
 burp suite
-brute force
-limit attepmts
-capcha

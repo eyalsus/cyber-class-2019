@@ -1,10 +1,19 @@
+lesson-1
 basic flask app
 web form
 login page
 sqlite DB
 sql injection
-salt
+
+lesson-2
+cookie
 burp suite
+
+lesson-3
 brute force
 limit attepmts
-capcha
+session variables
+
+lesson-4
+XSS
+watering hole
