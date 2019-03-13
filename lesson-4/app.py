@@ -91,10 +91,11 @@ def login():
         post_df = pd.read_sql_query('select * from posts', conn)
         resp = make_response(render_template('welcome.html', 
         username=username,
-        tables=post_df.values,
+        rows=post_df.values,
         titles=post_df.columns.values))
         if remember:
             resp.set_cookie('uname', username, 3600)
+            resp.set_cookie('uuid', session['uuid'], 3600)
         return resp
 
     fail_attempts[request.remote_addr] += 1
@@ -122,7 +123,7 @@ def post():
         print (post_df)
         resp = make_response(render_template('welcome.html',
         username=session['username'],
-        tables=post_df.values,
+        rows=post_df.values,
         titles=post_df.columns.values))
     return resp
     

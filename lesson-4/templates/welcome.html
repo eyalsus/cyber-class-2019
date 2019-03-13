@@ -23,10 +23,19 @@
     </form>
     
     <h2>Posts by the community</h2><br />
-    {% for table in tables %}
-            {{titles[loop.index]}}
-            {{ table|safe }}
-    {% endfor %}
+            <b>
+                {% for title in titles %}
+                    {{title}}
+                {% endfor %}
+            </b>
+            <br />
+
+            {% for row in rows %}
+                {% for cell in row %}
+                    {{ cell |safe }}
+                {% endfor %}
+            <br />
+            {% endfor %}
 
     {% endautoescape %}
 </body>
